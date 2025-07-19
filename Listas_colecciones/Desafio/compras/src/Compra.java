@@ -1,4 +1,4 @@
-public class Compra {
+public class Compra implements Comparable<Compra>  {
     private String descripcion;
     private double valor;
 
@@ -17,9 +17,11 @@ public class Compra {
 // Método para mostrar la compra como una cadena
     @Override
     public String toString() {
-        return "Compra{" +
-                "descripcion='" + descripcion + '\'' +
-                ", valor=" + valor +
-                '}';
+        return descripcion + " /$" + valor;
+    }
+    @Override
+    public int compareTo(Compra otraCompra) {
+        ///return Double.valueOf(this.valor).compareTo(Double.valueOf(otraCompra.getValor()));
+        return Double.compare(this.valor, otraCompra.valor);
     }
 }

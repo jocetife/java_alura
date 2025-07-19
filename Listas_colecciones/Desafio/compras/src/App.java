@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Scanner;
 
 public class App {
@@ -11,6 +12,15 @@ public class App {
         Tarjeta tarjeta = new Tarjeta(limite);
         
         while(true){
+            if (tarjeta.getSaldo() == 0) {
+                Collections.sort(tarjeta.getListaDeCompras());
+                System.out.println("Ya no tiene saldo en la tarjeta.");
+                System.out.println("Historial de compras: ");
+                for (Compra compraf : tarjeta.getListaDeCompras()) {
+                    System.out.println("--> "+ compraf);
+                }
+                break;
+            }
             System.out.println("Ingrese el nombre de la compra: ");
             String descripcion = scanner.next();
 
@@ -18,18 +28,19 @@ public class App {
             double valor = scanner.nextDouble();
 
             Compra compra = new Compra(descripcion, valor);
-
-            if(tarjeta.lanzarCompra(compra)) {
-                System.out.println("Compra realizada!" + compra);
+            boolean lanzar = tarjeta.lanzarCompra(compra); 
+            
+            if(lanzar) {
+                System.out.println("Compra realizada! ---->" + compra);
                 System.out.println("Saldo actual: " + tarjeta.getSaldo());
-                System.out.println("Límite de la tarjeta: " + tarjeta.getLimite());
-                System.out.println("desea ver el historial de compras? (si/no)");
-                String respuesta = scanner.next();
-                if(respuesta.equalsIgnoreCase("si")) {
-                    System.out.println("Historial de compras: " + tarjeta.getListaDeCompras());
+            }
+            else {
+                Collections.sort(tarjeta.getListaDeCompras());
+                System.out.println("Saldo insuficiente para realizar la compra. Su lista de compras es: ");
+                System.out.println("Historial de compras: ");
+                for (Compra compraf : tarjeta.getListaDeCompras()) {
+                    System.out.println("--> "+ compraf);
                 }
-            } else {
-                System.out.println("Saldo insuficiente para realizar la compra. Su lista de compras es: " + tarjeta.getListaDeCompras());
                 break;
             }
         }
