@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\jocel\\OneDrive\\Escritorio\\alura_java\\gson-2.13.1.jar"
+    ]
+}
