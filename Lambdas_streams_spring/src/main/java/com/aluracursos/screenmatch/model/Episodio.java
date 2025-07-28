@@ -16,9 +16,13 @@ public class Episodio {
         try {
             this.evaluacion = Double.valueOf(datosEpisodio.evaluacion());
         } catch (NumberFormatException e) {
-            this.evaluacion = 0.0; // o manejar el error de otra manera
+            this.evaluacion = 0.0; 
         }
-        this.fechaDeLanzamiento = LocalDate.parse(datosEpisodio.fechaDeLanzamiento());
+        try {
+            this.fechaDeLanzamiento = LocalDate.parse(datosEpisodio.fechaDeLanzamiento());
+        } catch (Exception e) {
+            this.fechaDeLanzamiento = null; 
+        }
     }
 
     //getters y setters

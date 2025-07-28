@@ -1,11 +1,13 @@
 package com.aluracursos.screenmatch.principal;
 
+//import java.time.LocalDate;
+//import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 import com.aluracursos.screenmatch.model.DatosEpisodio;
 import com.aluracursos.screenmatch.model.DatosSerie;
@@ -60,9 +62,36 @@ public class Principal {
         System.out.println("\nTop 5 de episodios con mejor calificación:");
         datosEpisodios.stream().filter(e -> !e.evaluacion().equalsIgnoreCase("N/A")).sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed()).limit(5).forEach(System.out::println);
 
+        System.out.println("----------------------");
+        //Todos los objetos Episodio
         List<Episodio> episodios = datosTemporadas.stream().flatMap(t -> t.episodios().stream()
             .map(d -> new Episodio (t.numero(), d))).collect(Collectors.toList());
 
         episodios.forEach(System.out::println);
+        System.out.println("----------------------");
+        
+        //Busqueda de episodios por fecha
+        /*System.out.println("Indica el año a partir del cual deseas buscar los episodios (formato YYYY): ");
+        var fecha = scanner.nextInt();
+        scanner.nextLine(); //salto de línea pendiente
+
+        LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        episodios.stream().filter(e -> e.getFechaDeLanzamiento() != null && e.getFechaDeLanzamiento().isAfter(fechaBusqueda))
+                .sorted(Comparator.comparing(Episodio::getFechaDeLanzamiento))
+                .forEach(e -> System.out.println(
+                    "Temporada: " + e.getTemporada() + ", Episodio: " + e.getNumeroEpisodio() + ", Título: " + e.getTitulo() + ", Fecha de lanzamiento: " + e.getFechaDeLanzamiento().format(dtf) + ", Evaluación: " + e.getEvaluacion()));*/
+
+        //Episodios por titulo, el que mas se asemeje 
+        System.out.println("Indica el título del episodio que deseas buscar: ");
+        var pedazoTitulo = scanner.nextLine();
+        Optional<Episodio> episodioBuscado = episodios.stream().filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase())).findFirst();
+
+        if(episodioBuscado.isPresent()){
+            System.out.println("Episodio encontrado: " + episodioBuscado.get());
+        }else {
+            System.out.println("No se encontro ningun episodio con ese titulo.");
+        }
     }
 }
