@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 public class ConsumoAPI {
     public String obtenerDatos(String url) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
+        HttpRequest request = HttpRequest.newBuilder() //hace la solicitud HTTP, de tipo GET (default)
                 .uri(URI.create(url))
                 .build();
         HttpResponse<String> response = null;
@@ -23,6 +23,6 @@ public class ConsumoAPI {
         }
 
         String json = response.body();
-        return json;
+        return json;    // devuelve el body 
     }
 }
