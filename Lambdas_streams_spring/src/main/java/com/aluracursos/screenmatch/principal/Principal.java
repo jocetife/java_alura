@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.aluracursos.screenmatch.model.DatosEpisodio;
 import com.aluracursos.screenmatch.model.DatosSerie;
 import com.aluracursos.screenmatch.model.DatosTemporada;
+import com.aluracursos.screenmatch.model.Episodio;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvierteDatos;
 
@@ -57,5 +59,10 @@ public class Principal {
         //Top5
         System.out.println("\nTop 5 de episodios con mejor calificación:");
         datosEpisodios.stream().filter(e -> !e.evaluacion().equalsIgnoreCase("N/A")).sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed()).limit(5).forEach(System.out::println);
+
+        List<Episodio> episodios = datosTemporadas.stream().flatMap(t -> t.episodios().stream()
+            .map(d -> new Episodio (t.numero(), d))).collect(Collectors.toList());
+
+        episodios.forEach(System.out::println);
     }
 }
