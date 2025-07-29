@@ -8,6 +8,4 @@ import java.util.List;
 public record DatosLibros( 
     int count,
     @JsonAlias("results") List<DatosLibro> libros
-) {
-
-}
+) {}

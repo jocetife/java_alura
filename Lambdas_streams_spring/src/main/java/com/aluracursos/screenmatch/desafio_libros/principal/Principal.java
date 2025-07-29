@@ -2,8 +2,10 @@ package com.aluracursos.screenmatch.desafio_libros.principal;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.IntSummaryStatistics;
 
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvierteDatos;
@@ -29,29 +31,46 @@ public class Principal {
         //System.out.println(json);
 
         List<DatosLibro> libros = new ArrayList<>();
-        for (int i = 0; i < datos.libros().size(); i++) {
-            DatosLibro libro = datos.libros().get(i);
-            libros.add(libro);
-        }
+        if (datos.libros().isEmpty()) {
+            System.out.println("No se encontraron libros con el nombre: " + nombreLibro);
+        } else {
+            for (int i = 0; i < datos.libros().size(); i++) {
+                DatosLibro libro = datos.libros().get(i);
+                libros.add(libro);
 
-        libros.forEach(libro-> {
-            System.out.println("--> Titulo: " + libro.titulo() 
-                                + ", ID: " + libro.id()
-                                + ", Numero de descargas: " + libro.numeroDeDescargas()
-                                + "\n--> Autor: " + libro.autor()
-                                + ", Lenguajes: " + libro.lenguajes()
-                                + "\n--> Sinopsis: " + libro.sinopsis() + "\n-------------------");
-        });
+                libros.forEach(l-> {
+                System.out.println("--> Titulo: " + l.titulo() 
+                                    + ", ID: " + l.id()
+                                    + ", Numero de descargas: " + l.numeroDeDescargas()
+                                    + "\n--> Autor: " + l.autor()
+                                    + ", Lenguajes: " + l.lenguajes()
+                                    + "\n--> Sinopsis: " + l.sinopsis() + "\n-------------------");
+                });
+            }
+        }
 
         //Top 10 libros mas descargados
         System.out.println("\n\nTop 10 libros mas descargados (primera pagina):\n");
-        DatosLibros topDatosLibros = conversor.obtenerDatos(jsonTop, DatosLibros.class);
-        List<DatosLibro> topLibros = topDatosLibros.libros();
+        DatosLibros general = conversor.obtenerDatos(jsonTop, DatosLibros.class);
+        List<DatosLibro> topLibros = general.libros();
         topLibros.stream()
             .sorted(Comparator.comparing(DatosLibro::numeroDeDescargas).reversed())
             .limit(10)
             .forEach(libro -> {
             System.out.println("--> Titulo: " + libro.titulo()+ "\n-->Descargas: " + libro.numeroDeDescargas()+ "\n");
             });
+        System.out.println("--------------------------------------");
+
+        //estadisticas
+        System.out.println("Estadisticas de: "+ nombreLibro);
+        IntSummaryStatistics estbusq = datos.libros()
+            .stream()
+            .collect(Collectors.summarizingInt(DatosLibro::numeroDeDescargas));
+        System.out.println(estbusq);
+        System.out.println("--------------------------------------\n Estadisticas generales: ");
+        IntSummaryStatistics est = general.libros()
+            .stream()
+            .collect(Collectors.summarizingInt(DatosLibro::numeroDeDescargas));
+            System.out.println(est);
     }
 }
