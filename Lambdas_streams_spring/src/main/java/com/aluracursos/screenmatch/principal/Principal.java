@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+//import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.Optional;
+//import java.util.Optional;
+import java.util.Map;
+import java.util.DoubleSummaryStatistics;
 
 import com.aluracursos.screenmatch.model.DatosEpisodio;
 import com.aluracursos.screenmatch.model.DatosSerie;
@@ -84,14 +87,26 @@ public class Principal {
                     "Temporada: " + e.getTemporada() + ", Episodio: " + e.getNumeroEpisodio() + ", Título: " + e.getTitulo() + ", Fecha de lanzamiento: " + e.getFechaDeLanzamiento().format(dtf) + ", Evaluación: " + e.getEvaluacion()));*/
 
         //Episodios por titulo, el que mas se asemeje 
-        System.out.println("Indica el título del episodio que deseas buscar: ");
-        var pedazoTitulo = scanner.nextLine();
-        Optional<Episodio> episodioBuscado = episodios.stream().filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase())).findFirst();
+        // System.out.println("Indica el título del episodio que deseas buscar: ");
+        // var pedazoTitulo = scanner.nextLine();
+        // Optional<Episodio> episodioBuscado = episodios.stream().filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase())).findFirst();
 
-        if(episodioBuscado.isPresent()){
-            System.out.println("Episodio encontrado: " + episodioBuscado.get());
-        }else {
-            System.out.println("No se encontro ningun episodio con ese titulo.");
-        }
+        // if(episodioBuscado.isPresent()){
+        //     System.out.println("Episodio encontrado: " + episodioBuscado.get());
+        // }else {
+        //     System.out.println("No se encontro ningun episodio con ese titulo.");
+        // }
+
+        Map<Integer, Double> evaluacionPorTemporada = episodios.stream().filter(e -> e.getEvaluacion() > 0.0).collect(Collectors.groupingBy(Episodio::getTemporada, Collectors.averagingDouble(Episodio::getEvaluacion))); 
+
+        System.out.println(evaluacionPorTemporada);
+
+        DoubleSummaryStatistics est = episodios.stream().filter(e -> e.getEvaluacion() > 0.0)
+            .collect(Collectors.summarizingDouble(Episodio::getEvaluacion));
+
+        System.out.println("Estadísticas de evaluación: " + est);
+        System.out.println("Media de evaluación: " + est.getAverage());
+        System.out.println("Máxima evaluación: " + est.getMax());
+        System.out.println("Mínima evaluación: " + est.getMin());
     }
 }
