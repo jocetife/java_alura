@@ -3,7 +3,6 @@ package com.aluracursos.screenmatch.desafio_libros.principal;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 import java.util.Comparator;
 
 import com.aluracursos.screenmatch.service.ConsumoAPI;
