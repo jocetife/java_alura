@@ -17,7 +17,7 @@ public class Principal {
     private final String URL_BASE = "https://www.omdbapi.com/?t=";
     private final String API_KEY = "TU-APIKEY-OMDB";
     private ConvierteDatos conversor = new ConvierteDatos();
-    private List<DatosSerie> datosSeries = new ArrayList<>();
+    //private List<DatosSerie> datosSeries = new ArrayList<>();
     private SerieRepository repositorio;
     private List<Serie> series;
 
@@ -31,8 +31,7 @@ public class Principal {
             var menu = """
                     1 - Buscar series 
                     2 - Buscar episodios
-                    3 - Mostrar series buscadas
-                                  
+                    3 - Mostrar series buscadas                                  
                     0 - Salir
                     """;
             System.out.println(menu);
