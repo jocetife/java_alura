@@ -1,28 +1,49 @@
 package com.aluracursos.screenmatch.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.aluracursos.screenmatch.repository.SerieRepository;
+//import com.aluracursos.screenmatch.repository.SerieRepository;
 import com.aluracursos.screenmatch.dto.SerieDTO;
-import java.util.stream.Collectors;
+import com.aluracursos.screenmatch.model.Serie;
+//import java.util.stream.Collectors;
+import com.aluracursos.screenmatch.service.SerieService;
 
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/series")
 public class SerieController {
-
-    @Autowired
-    private SerieRepository repository;
     
-    @GetMapping("/series")
+    @Autowired
+    private SerieService servicio;
+
+    @GetMapping
     public List<SerieDTO> obtenerTodasLasSeries(){
-        return repository.findAll().stream().map(s -> new SerieDTO(s.getTitulo(), s.getTotalTemporadas(), s.getEvaluacion(), s.getPoster(), s.getGenero(), s.getActores(), s.getSinopsis())).collect(Collectors.toList());
+        return servicio.obtenerTodasLasSeries();
     }
 
-    @GetMapping("/inicio")
-    public String muestraMensaje() {
-        return "Probando LiveReloading lol";
+    @GetMapping("/top5")
+    public List<SerieDTO> obtenerTop5(){
+        return servicio.obtenerTop5();
     }
+
+    @GetMapping("/lanzamientos")
+    public List<SerieDTO>  obtenerLanzamientosRecientes(){
+        return servicio.obtenerLanzamientosRecientes();
+    }
+    
+    @GetMapping("/{id}")
+    public SerieDTO obtenerPorId(@PathVariable Long id){
+        return servicio.obtenerPorId(id);
+    }
+
+    // @GetMapping("/inicio")
+    // public String muestraMensaje() {
+    //     return "Probando LiveReloading lol";
+    //}
 }
