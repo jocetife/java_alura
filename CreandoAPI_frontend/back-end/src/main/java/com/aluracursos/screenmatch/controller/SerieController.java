@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 //import com.aluracursos.screenmatch.repository.SerieRepository;
 import com.aluracursos.screenmatch.dto.SerieDTO;
-import com.aluracursos.screenmatch.model.Serie;
+import com.aluracursos.screenmatch.dto.EpisodioDTO;
+//import com.aluracursos.screenmatch.model.Episodio;
+//import com.aluracursos.screenmatch.model.Serie;
 //import java.util.stream.Collectors;
 import com.aluracursos.screenmatch.service.SerieService;
 
@@ -40,6 +42,21 @@ public class SerieController {
     @GetMapping("/{id}")
     public SerieDTO obtenerPorId(@PathVariable Long id){
         return servicio.obtenerPorId(id);
+    }
+
+    @GetMapping("/{id}/temporadas/todas")
+    public List<EpisodioDTO> obtenerTodasLasTemporadas(@PathVariable Long id) {
+            return servicio.obtenerTodasLasTemporadas(id);
+    }
+
+    @GetMapping("/{id}/temporadas/{temporada}")
+    public List<EpisodioDTO> obtenerEpisodiosPorTemporada(@PathVariable Long id, @PathVariable Integer temporada) {
+            return servicio.obtenerEpisodiosPorTemporada(id, temporada);
+    }
+
+    @GetMapping("/categoria/{categoria}")
+    public List<SerieDTO> obtenerSeriesPorCategoria(@PathVariable String categoria) {
+        return servicio.obtenerSeriesPorCategoria(categoria);
     }
 
     // @GetMapping("/inicio")
