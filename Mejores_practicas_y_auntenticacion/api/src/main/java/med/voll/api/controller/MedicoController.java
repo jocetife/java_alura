@@ -16,15 +16,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
-import med.voll.api.medico.DatosActualizacionMedico;
-import med.voll.api.medico.DatosDetalleMedico;
-import med.voll.api.medico.DatosListaMedico;
-import med.voll.api.medico.DatosRegistroMedico;
-import med.voll.api.medico.Medico;
+import med.voll.api.domain.medico.DatosActualizacionMedico;
+import med.voll.api.domain.medico.DatosDetalleMedico;
+import med.voll.api.domain.medico.DatosListaMedico;
+import med.voll.api.domain.medico.DatosRegistroMedico;
+import med.voll.api.domain.medico.Medico;
 import med.voll.api.repository.MedicoRepository;
 
 @RestController
@@ -74,6 +73,5 @@ public class MedicoController {
         medico.eliminar();
         return ResponseEntity.noContent().build();
     }
-
 
 }
